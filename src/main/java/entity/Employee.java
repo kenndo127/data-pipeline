@@ -1,7 +1,7 @@
 package entity;
 
 public class Employee {
-    private String Education;
+    private String education;
     private int year;
     private String city;
     private int paymentTier;
@@ -12,7 +12,7 @@ public class Employee {
     private int leaveOrNot;
 
     public Employee(String education, int year, String city, int paymentTier, int age, String gender, String everBenched, int experienceInCurrentDomain, int leaveOrNot) {
-        Education = education;
+        this.education = education;
         this.year = year;
         this.city = city;
         this.paymentTier = paymentTier;
@@ -24,7 +24,7 @@ public class Employee {
     }
 
     public String getEducation() {
-        return Education;
+        return education;
     }
 
     public int getYear() {
@@ -59,4 +59,18 @@ public class Employee {
         return leaveOrNot;
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "education='" + education + '\'' +
+                ", year=" + year +
+                ", city='" + city + '\'' +
+                ", paymentTier=" + paymentTier +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", everBenched='" + everBenched + '\'' +
+                ", experienceInCurrentDomain=" + experienceInCurrentDomain +
+                ", leaveOrNot=" + leaveOrNot +
+                '}';
+    }
 }
