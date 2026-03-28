@@ -6,18 +6,20 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        String line; //hold the value of each line read from the file
+        String[] lineArray; //hold the array of each string from the line
+        Employee emp;
+        List<Employee> employeeList = new ArrayList<>();
+
         //Reading the data from the csv file
         try{
             InputStream file = Main.class.getClassLoader().getResourceAsStream("Employee.csv");
             BufferedReader reader = new BufferedReader(new InputStreamReader(file));
-
-            String line; //hold the value of each line read from the file
-            String[] lineArray; //hold the array of each string from the line
-            Employee emp;
-            List<Employee> employeeList = new ArrayList<>();
 
             reader.readLine(); //Used to skip the first line
 
@@ -30,11 +32,31 @@ public class Main {
                         Integer.parseInt(lineArray[7]));
 
                 employeeList.add(emp);
-                employeeList.stream().forEach(n -> System.out.println(n.toString()));
             }
         } catch (IOException e){
             e.printStackTrace();
         }
+
+        //Using filter and forEach
+        employeeList.stream()
+                .filter(n -> n.getYear() >= 2010 && n.getGender().equalsIgnoreCase("male"))
+                .forEach(n -> System.out.println(n.toString()));
+
+        //Using Joining
+        String employeeDepartment = employeeList.stream()
+                .map(Employee::getEducation)
+                .collect(Collectors.joining(", ", "[Education: ", " ]"));
+        System.out.println(employeeDepartment);
+
+        //Using grouping
+        Map<String, List<Integer>> cityGrouping = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getCity, Collectors.mapping(Employee::getAge, Collectors.toList())));
+        cityGrouping.forEach((city,age) -> System.out.println(city + " : " + age));
+
+        //Using grouping and unModifiableList
+        List<Employee> maleEmployee = employeeList.stream()
+                                                    .filter(n -> n.getGender().equalsIgnoreCase("male"))
+                                                    .collect(Collectors.toUnmodifiableList());
 
     }
 }
